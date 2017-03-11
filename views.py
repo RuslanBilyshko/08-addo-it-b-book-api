@@ -68,7 +68,7 @@ def update_book(id):
 
     return jsonify(book_schema.dumps(book).data), 200
 
-
+#Delete
 @app.route('/api/books/<int:id>', methods=["DELETE"])
 def delete_book(id):
     is_book_exists = Book.select().filter(id=id).exists()
