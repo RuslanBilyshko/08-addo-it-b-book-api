@@ -44,6 +44,14 @@ def delete_author(id):
     if not is_author_exists:
         return jsonify({"message": "Can't find author with id - `{id}`".format(id=id)}), 404
 
+    # Проверка на связи явтора с книгами
+    # Для сохранения целосности данных
+    is_author_relation = Book.filter(Book.author == id).exists()
+
+    if is_author_relation:
+        return jsonify({"message": "An author with an with id - `{id}` can not be deleted because it is associated "
+                                   "with books".format(id=id)}), 404
+
     Author.delete().where(Author.id == id).execute()
     return jsonify({}), 204
 
